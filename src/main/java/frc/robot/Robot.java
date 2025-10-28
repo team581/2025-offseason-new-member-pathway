@@ -4,12 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Robot extends TimedRobot {
-
   /** Driver Controller is on port 0 */
   private final CommandXboxController driverController = new CommandXboxController(0);
 
@@ -17,14 +16,9 @@ public class Robot extends TimedRobot {
   private final TalonFX intakeMotor = new TalonFX(25, "581CANivore");
 
   /** Called once at the beginning of the robot program. */
-  public Robot() {
-
-  }
+  public Robot() {}
 
   /** This function is called periodically during teleoperated mode. */
   @Override
-  public void teleopPeriodic() {
-
-  }
-
+  public void teleopPeriodic() {}
 }
