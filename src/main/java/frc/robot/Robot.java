@@ -15,11 +15,15 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.S2StateValue;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.swerve.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
   /** Driver Controller is on port 0 */
   private final CommandXboxController driverController = new CommandXboxController(0);
+
+  private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(driverController);
 
   /** Intake Deploy Motor has ID of 20, and is on CANbus with name 581CANivore */
   private final TalonFX deployMotor = new TalonFX(20, "581CANivore");
@@ -78,5 +82,11 @@ public class Robot extends TimedRobot {
   /** Returns whether the intake is holding a coral. */
   private boolean intakeHasCoral() {
     return intakeCandi.getS2State().getValue() != S2StateValue.High;
+  }
+
+  @Override
+  public void robotPeriodic() {
+    // Run all subsystem periodic methods
+    CommandScheduler.getInstance().run();
   }
 }
