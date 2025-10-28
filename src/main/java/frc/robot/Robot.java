@@ -8,15 +8,14 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.S2StateValue;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.intake.IntakeSubsystem;
 import frc.robot.swerve.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
@@ -34,7 +33,7 @@ public class Robot extends TimedRobot {
   /** Intake CANDi has ID of 26, and is on CANbus with name 581CANivore */
   private final CANdi intakeCandi = new CANdi(26, "581CANivore");
 
-  private final VoltageOut voltageRequest = new VoltageOut(0);
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(intakeMotor, intakeCandi);
 
   /** Called once at the beginning of the robot program. */
   public Robot() {
@@ -67,21 +66,16 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    if (driverController.getLeftTriggerAxis() > 0.5 && !intakeHasCoral()) {
+    if (driverController.getLeftTriggerAxis() > 0.5) {
       // Left trigger to intake
-      intakeMotor.setControl(voltageRequest.withOutput(6));
+      intakeSubsystem.intake();
     } else if (driverController.getRightTriggerAxis() > 0.5) {
       // Right trigger to outtake
-      intakeMotor.setControl(voltageRequest.withOutput(-6));
+      intakeSubsystem.score();
     } else {
       // Disable otherwise
-      intakeMotor.disable();
+      intakeSubsystem.stop();
     }
-  }
-
-  /** Returns whether the intake is holding a coral. */
-  private boolean intakeHasCoral() {
-    return intakeCandi.getS2State().getValue() != S2StateValue.High;
   }
 
   @Override
