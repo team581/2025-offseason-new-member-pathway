@@ -18,25 +18,20 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Runs the intake until a coral is detected. */
   public void intake() {
-    if (intakeHasCoral()) {
-      intakeMotor.disable();
-    } else {
-      intakeMotor.setControl(voltageRequest.withOutput(6));
-    }
   }
 
   /** Runs the intake in reverse to score a coral. */
   public void score() {
-    intakeMotor.setControl(voltageRequest.withOutput(-6));
+
   }
 
   /** Stops the intake. */
   public void stop() {
-    intakeMotor.disable();
+
   }
 
   /** Returns whether the intake is holding a coral. */
   private boolean intakeHasCoral() {
-    return intakeCandi.getS2State().getValue() != S2StateValue.High;
+    return false;
   }
 }
