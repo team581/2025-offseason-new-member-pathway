@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
   /** Driver Controller is on port 0 */
   private final CommandXboxController driverController = new CommandXboxController(0);
 
+  @SuppressWarnings("unused")
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(driverController);
 
   /** Intake Deploy Motor has ID of 20, and is on CANbus with name 581CANivore */
